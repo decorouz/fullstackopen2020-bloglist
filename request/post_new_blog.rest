@@ -1,0 +1,10 @@
+
+post http://localhost:3003/api/blogs
+Content-Type: application/json
+
+{
+	"title": "Apple music has so much resources",
+	"author": "Fairly Alive",
+	"url": "applmusic.com",
+	"likes": 1000
+}
