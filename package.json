@@ -5,8 +5,8 @@
   "main": "index.js",
   "scripts": {
     "watch": "nodemon index.js",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "test": "jest --verbose"
   },
   "author": "Adeyemi Biola",
   "license": "ISC",
@@ -23,6 +23,7 @@
     "eslint-plugin-jsx-a11y": "^6.2.3",
     "eslint-plugin-react": "^7.19.0",
     "eslint-plugin-react-hooks": "^2.5.0",
+    "jest": "^25.3.0",
     "nodemon": "^2.0.3"
   }
 }

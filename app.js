@@ -5,7 +5,7 @@ const { MONGODB_URI } = require('./utils/config')
 
 const app = express()
 const blogRouter = require('./controllers/blogs')
-const logger = require('./util/logger')
+const logger = require('./utils/logger')
 
 logger.info('Connecting to', MONGODB_URI)
 
