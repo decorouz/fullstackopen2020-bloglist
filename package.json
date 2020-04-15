@@ -6,7 +6,7 @@
   "scripts": {
     "watch": "nodemon index.js",
     "lint": "eslint .",
-    "test": "jest --verbose"
+    "test": "jest --watchAll --verbose"
   },
   "author": "Adeyemi Biola",
   "license": "ISC",

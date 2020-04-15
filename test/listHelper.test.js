@@ -1,4 +1,9 @@
-const { dummy, totalLikes, favoriteBlog } = require('../utils/list_helper')
+const {
+  dummy,
+  totalLikes,
+  favoriteBlog,
+  mostBlogs,
+} = require('../utils/list_helper')
 
 const blogs = [
   {
@@ -29,7 +34,7 @@ const blogs = [
   {
     _id: '5a422b891b54a676234d17fa',
     title: 'First class tests',
-    author: 'Robert C. Martin',
+    author: 'Edsger W. Dijkstra',
     url:
       'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
@@ -65,24 +70,30 @@ describe('total likes', () => {
   test('of empty list is zero', () => {
     expect(totalLikes([])).toBe(0)
   })
-  test('when list has only one blog equals the of that', () => {
+  test('should return the total likes of a single blog list', () => {
     expect(totalLikes(blogs)).toBe(36)
   })
 
-  test('of a bigger list is calculated right', () => {
+  test('should calculate the sum of likes for the entire blog list', () => {
     expect(totalLikes(blogs)).toBe(36)
   })
 })
 
 describe('favorite blog', () => {
-  test('with the most likes', () => {
+  test('should return the blog with the most likes', () => {
     expect(favoriteBlog(blogs)).toEqual({
-      _id: '5a422b3a1b54a676234d17f9',
       title: 'Canonical string reduction',
       author: 'Edsger W. Dijkstra',
-      url: 'http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html',
       likes: 12,
-      __v: 0,
+    })
+  })
+})
+
+describe('mostBlog', () => {
+  test('should should return the author who has the largest amount of blogs', () => {
+    expect(mostBlogs(blogs)).toEqual({
+      author: 'Edsger W. Dijkstra',
+      blogs: 3,
     })
   })
 })
