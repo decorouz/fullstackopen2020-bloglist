@@ -60,6 +60,27 @@ test('verify that the unique identifier property of the blog post is named id', 
   expect(id).toBeDefined()
 })
 
+test('verify that making POST request is successful', async () => {
+  const newBlog = {
+    title: 'Type wars',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+    likes: 2,
+  }
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/)
+
+  const response = await api.get('/api/blogs')
+  const blogTitle = response.body.map((c) => c.title)
+
+  expect(response.body).toHaveLength(initialBlogs.length + 1)
+  expect(blogTitle).toContain('Type wars')
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
