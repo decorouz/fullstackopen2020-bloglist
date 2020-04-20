@@ -3,6 +3,7 @@ const {
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 } = require('../utils/list_helper')
 
 const blogs = [
@@ -34,7 +35,7 @@ const blogs = [
   {
     _id: '5a422b891b54a676234d17fa',
     title: 'First class tests',
-    author: 'Edsger W. Dijkstra',
+    author: 'Robert C. Martin',
     url:
       'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
     likes: 10,
@@ -90,10 +91,19 @@ describe('favorite blog', () => {
 })
 
 describe('mostBlog', () => {
-  test('should should return the author who has the largest amount of blogs', () => {
+  test('should return the author who has the largest amount of blogs', () => {
     expect(mostBlogs(blogs)).toEqual({
-      author: 'Edsger W. Dijkstra',
+      author: 'Robert C. Martin',
       blogs: 3,
     })
   })
 })
+
+// describe('mostLikes', () => {
+//   test('should return author whose blog post have the largest amount of likes', () => {
+//     expect(mostLikes(blogs)).toEqual({
+//       author: 'Edsger W. Dijkstra',
+//       likes: 17,
+//     })
+//   })
+// })

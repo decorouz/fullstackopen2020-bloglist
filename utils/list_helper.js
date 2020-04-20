@@ -28,7 +28,6 @@ const mostBlogs = (blogs) => {
     } else {
       acc[curr.author] = 1
     }
-
     return acc
   }, {})
 
@@ -38,6 +37,10 @@ const mostBlogs = (blogs) => {
 
   return { author, blogs: blogCount[author] }
 }
+
+// const mostLikes = (blogs) => {
+//   likeCount = blogs.reduce((acc, curr) => {})
+// }
 
 module.exports = {
   dummy,
