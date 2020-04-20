@@ -81,6 +81,18 @@ test('verify that making POST request is successful', async () => {
   expect(blogTitle).toContain('Type wars')
 })
 
+test('should verify if the likes property is missing from the request, it will default to the value zero', async () => {
+  const newBlog = {
+    title: 'Type wars',
+    author: 'Robert C. Martin',
+    url: 'http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html',
+  }
+
+  const response = await api.post('/api/blogs').send(newBlog).expect(201)
+
+  expect(response.body.likes).toEqual(0)
+})
+
 afterAll(() => {
   mongoose.connection.close()
 })
