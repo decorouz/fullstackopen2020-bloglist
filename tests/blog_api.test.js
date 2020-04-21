@@ -102,6 +102,21 @@ test('should return 400, if the title and url properties are missing', async () 
     .expect('Content-Type', /application\/json/)
 })
 
+test('should succeeds with status code 204 if id is valid', async () => {
+  const blogAtstart = await api.get('/api/blogs')
+  const blogToDelete = blogAtstart.body[0]
+
+  await api.delete(`/api/blogs/${blogToDelete.id}`).expect(204)
+
+  const bloglistAtEnd = await api.get('/api/blogs')
+  expect(bloglistAtEnd.body).toHaveLength(initialBlogs.length - 1)
+
+  const blogIds = bloglistAtEnd.body.map((b) => b.id)
+
+  expect(blogIds).not.toContain(blogToDelete.id)
+})
+
+test('shold')
 afterAll(() => {
   mongoose.connection.close()
 })
