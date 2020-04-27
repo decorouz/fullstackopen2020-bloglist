@@ -1,10 +1,11 @@
 
 post http://localhost:3003/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6InJvb3QiLCJpZCI6IjVlYTVhNWU4NjYwY2VmNmUxYjkyMjJlMyIsImlhdCI6MTU4ODAwMjA0Nn0.LpGE2ZV0olNi1pFAvOp9AzdMe1Z6llPiuoRD1fUS0yk
 
 {
-	"title": "Apple music has so much resources",
-	"author": "Fairly Alive",
-	"url": "applmusic.com",
-	"likes": 1000
+	"title": "Testing the implementation of token for a new user",
+	"author": "roother",
+	"url": "https://fullstackopen.com/en/part4/token_authentication",
+	"likes": 22
 }
