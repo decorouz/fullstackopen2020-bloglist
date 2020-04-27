@@ -6,8 +6,11 @@ const jwt = require('jsonwebtoken')
 blogRouter.get('/', async (request, response, next) => {
   try {
     const blogs = await Blog.find({}).populate('user', { username: 1, name: 1 })
-
-    response.json(blogs.map((blog) => blog.toJSON()))
+    if (blogs) {
+      response.json(blogs.map((blog) => blog.toJSON()))
+    } else {
+      response.status(404).end()
+    }
   } catch (exception) {
     next(exception)
   }
@@ -50,12 +53,29 @@ blogRouter.post('/', async (request, response, next) => {
 })
 
 blogRouter.delete('/:id', async (request, response, next) => {
-  try {
-    await Blog.findByIdAndRemove(request.params.id)
-    response.status(204).end()
-  } catch (exception) {
-    next(exception)
+  const id = request.params.id
+  if (id) {
+    try {
+      const decodedToken = jwt.verify(request.token, process.env.SECRET)
+      if (!request.token || !decodedToken.id) {
+        return response.status(401).json({ error: 'token missing or invalid' })
+      }
+
+      const blog = await Blog.findById(id)
+
+      if (blog.user.toString() === decodedToken.id.toString()) {
+        await Blog.findByIdAndRemove(id)
+        response.status(204).end()
+      } else {
+        return response
+          .status(401)
+          .json({ error: 'not authorized to delete this blog post' })
+      }
+    } catch (exception) {
+      next(exception)
+    }
   }
+  return response.status(404).json({ error: 'Blog already deleted' })
 })
 
 blogRouter.put('/:id', async (request, response, next) => {
