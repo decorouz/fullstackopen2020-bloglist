@@ -16,14 +16,6 @@ blogRouter.get('/', async (request, response, next) => {
   }
 })
 
-// const getTokenFrom = (request) => {
-//   const authorization = request.get('authorization')
-//   if (authorization && authorization.toLowerCase().startsWith('bearer ')) {
-//     return authorization.substring(7)
-//   }
-//   return null
-// }
-
 blogRouter.post('/', async (request, response, next) => {
   const body = request.body
 
@@ -54,32 +46,31 @@ blogRouter.post('/', async (request, response, next) => {
 
 blogRouter.delete('/:id', async (request, response, next) => {
   const id = request.params.id
-  if (id) {
-    try {
-      const decodedToken = jwt.verify(request.token, process.env.SECRET)
-      if (!request.token || !decodedToken.id) {
-        return response.status(401).json({ error: 'token missing or invalid' })
-      }
 
-      const blog = await Blog.findById(id)
-
-      if (blog.user.toString() === decodedToken.id.toString()) {
-        await Blog.findByIdAndRemove(id)
-        response.status(204).end()
-      } else {
-        return response
-          .status(401)
-          .json({ error: 'not authorized to delete this blog post' })
-      }
-    } catch (exception) {
-      next(exception)
+  try {
+    const decodedToken = jwt.verify(request.token, process.env.SECRET)
+    if (!request.token || !decodedToken.id) {
+      return response.status(401).json({ error: 'token missing or invalid' })
     }
+
+    const blog = await Blog.findById(id)
+
+    if (blog.user.toString() === decodedToken.id.toString()) {
+      await Blog.findByIdAndRemove(id)
+      response.status(204).end()
+    } else {
+      return response
+        .status(401)
+        .json({ error: 'not authorized to delete this blog post' })
+    }
+  } catch (exception) {
+    next(exception)
   }
-  return response.status(404).json({ error: 'Blog already deleted' })
 })
 
 blogRouter.put('/:id', async (request, response, next) => {
   const body = request.body
+  const id = request.params.id
 
   blog = {
     title: body.title,
@@ -89,7 +80,7 @@ blogRouter.put('/:id', async (request, response, next) => {
   }
 
   try {
-    const updatedBlog = await Blog.findByIdAndUpdate(request.params.id, blog, {
+    const updatedBlog = await Blog.findByIdAndUpdate(id, blog, {
       new: true,
     })
 

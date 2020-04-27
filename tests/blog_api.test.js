@@ -1,3 +1,4 @@
+const jwt = require('jsonwebtoken')
 const bcrypt = require('bcrypt')
 const mongoose = require('mongoose')
 const supertest = require('supertest')
@@ -7,6 +8,8 @@ const Blog = require('../models/blog')
 const User = require('../models/user')
 
 const api = supertest(app)
+
+let auth = {}
 
 const initialBlogs = [
   {
@@ -62,7 +65,7 @@ describe('blog router', () => {
   })
 
   describe('addition of new blog content', () => {
-    test('verify that making POST request is successful', async () => {
+    test('should verify that making POST request is successful', async () => {
       const newBlog = {
         title: 'Type wars',
         author: 'Robert C. Martin',
@@ -72,11 +75,13 @@ describe('blog router', () => {
 
       await api
         .post('/api/blogs')
+        .set('authorization', auth.token)
         .send(newBlog)
         .expect(201)
         .expect('Content-Type', /application\/json/)
 
       const response = await api.get('/api/blogs')
+
       const blogTitle = response.body.map((c) => c.title)
 
       expect(response.body).toHaveLength(initialBlogs.length + 1)
